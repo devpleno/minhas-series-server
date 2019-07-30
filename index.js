@@ -1,7 +1,7 @@
 const app = require('./app')
 require('./db')
 
-const port = process.env.API_PORT || 3002
+const port = process.env.PORT || 3002
 
 app
   .listen(port, () => {
