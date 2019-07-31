@@ -9,11 +9,12 @@ const routes = require('./routes')
 app.use(routes)
 
 if (process.env.NODE_ENV === 'production') {
+  const baseDir = process.env.BASE_DIR || './' // /usr/src/app/
   // Serve any static files
-  app.use(express.static('./build'))
+  app.use(express.static(baseDir + 'build'))
   // Handle React routing, return all requests to React app
   app.get('*', function (req, res) {
-    res.sendFile('./build/index.html')
+    res.sendFile(baseDir + 'build/index.html')
   })
 }
 
