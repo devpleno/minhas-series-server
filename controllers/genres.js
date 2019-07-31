@@ -26,7 +26,7 @@ const create = ({ db }) => async(req, res) => {
 
 const getOne = ({ db }) => async(req, res) => {
   let id = req.params.id
-  const genre = await db('genres').select().where('id', id).first()
+  const genre = await db('genres').select('*').where('id', id).first()
   res.send(genre)
 }
 

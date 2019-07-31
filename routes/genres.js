@@ -4,6 +4,7 @@ const dependencies = { db }
 
 const controller = require('../controllers/genres')
 
+router.get('/:id', controller.getOne(dependencies))
 router.get('/', controller.get(dependencies))
 router.post('/', controller.create(dependencies))
 router.put('/:id', controller.update(dependencies))
