@@ -15,6 +15,8 @@ const initDB = async () => {
       table.string('status')
       table.integer('genre_id')
       table.string('comments')
+      table.string('poster')
+      table.string('background')
     })
   }
   const genresExist = await knex.schema.hasTable('genres')
@@ -24,26 +26,26 @@ const initDB = async () => {
       table.integer('name')
     })
   }
-/*
-  const totalUsers = await knex('users').select(knex.raw('count(*) as total'))
-  if (totalUsers[0].total === 0) {
+
+  const totalGenres = await knex('genres').select(knex.raw('count(*) as total'))
+  if (totalGenres[0].total === 0) {
     await knex.insert({
-      name: 'Tulio Faria',
-      email: 'tuliofaria@devpleno.com',
-      passwd: 'abc123',
-      role: 'admin',
-      unit: 'metric',
-      timezone: 'America/Sao_Paulo'
-    }).into('users')
+      name: 'Ação'
+    }).into('genres')
+
     await knex.insert({
-      name: 'Zé da Silva',
-      email: 'ze@dominio.com',
-      passwd: 'abc123',
-      role: 'user',
-      unit: 'metric',
-      timezone: 'America/Sao_Paulo'
-    }).into('users')
-  }*/
+      name: 'Comédia'
+    }).into('genres')
+
+    await knex.insert({
+      name: 'La casa de papel',
+      status: 'WATCHED',
+      genre_id: 1,
+      comments: '',
+      poster: '//image.tmdb.org/t/p/original/piuRhGiQBYWgW668eSNJ2ug5uAO.jpg',
+      background: '//image.tmdb.org/t/p/original/yVUAfbrP5HDJugXraB7KQS0yz6Z.jpg'
+    }).into('series')
+  }
 }
 
 initDB()

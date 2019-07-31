@@ -1,6 +1,6 @@
 const axios = require('axios')
 const apiKey = '54bc8a90b9ec3f31addef0c092d7c22e'
-const getSerieInfo = async(name) => {
+const getSerieImage = async(name) => {
   try {
     const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&language=pt-BR&query=${name}&page=1&include_adult=false`
     const res = await axios.get(url)
@@ -13,8 +13,6 @@ const getSerieInfo = async(name) => {
   return { poster: '', background: '' }
 }
 
-// getSerieInfo('la casa de papel').then( e => console.log(e))
-
 const get = ({ db }) => async(req, res) => {
   if (req.params.genre) {
     const series = await db
@@ -22,7 +20,9 @@ const get = ({ db }) => async(req, res) => {
         id: 'series.id',
         name: 'series.name',
         status: 'series.status',
-        genre: 'genres.name'
+        genre: 'genres.name',
+        poster: 'series.poster',
+        background: 'series.background'
       })
       .from('series')
       .leftJoin('genres', 'genres.id', 'series.genre_id')
@@ -38,7 +38,9 @@ const get = ({ db }) => async(req, res) => {
         id: 'series.id',
         name: 'series.name',
         status: 'series.status',
-        genre: 'genres.name'
+        genre: 'genres.name',
+        poster: 'series.poster',
+        background: 'series.background'
       })
       .from('series')
       .leftJoin('genres', 'genres.id', 'series.genre_id')
@@ -53,10 +55,15 @@ const get = ({ db }) => async(req, res) => {
 
 const create = ({ db }) => async(req, res) => {
   const newSerie = req.body
+
+  const images = await getSerieImage(newSerie.name)
+
   const serieToInsert = {
     name: newSerie.name,
     status: newSerie.status,
-    genre_id: newSerie.genre_id
+    genre_id: newSerie.genre_id,
+    poster: images.poster,
+    background: images.background
   }
 
   const [insertedId] = await db.insert(serieToInsert).into('series')
@@ -66,7 +73,18 @@ const create = ({ db }) => async(req, res) => {
 
 const getOne = ({ db }) => async(req, res) => {
   let id = req.params.id
-  const serie = await db('series').select().where('id', id).first()
+  const serie = await db('series')
+    .select({
+      id: 'series.id',
+      name: 'series.name',
+      status: 'series.status',
+      genre: 'genres.name',
+      poster: 'series.poster',
+      background: 'series.background'
+    })
+    .where('series.id', id)
+    .leftJoin('genres', 'genres.id', 'series.genre_id')
+    .first()
   res.send(serie)
 }
 
@@ -92,11 +110,15 @@ const update = ({ db }) => async(req, res) => {
     return res.send({ error: true })
   }
 
+  const images = await getSerieImage(updatedSerie.name)
+
   const serieToUpdate = {
     name: updatedSerie.name,
     status: updatedSerie.status,
     genre_id: updatedSerie.genre_id,
-    comments: updatedSerie.comments
+    comments: updatedSerie.comments,
+    poster: images.poster,
+    background: images.background
   }
 
   await db('series')
