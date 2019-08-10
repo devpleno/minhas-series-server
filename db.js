@@ -42,8 +42,8 @@ const initDB = async () => {
       status: 'WATCHED',
       genre_id: 1,
       comments: '',
-      poster: '//image.tmdb.org/t/p/original/piuRhGiQBYWgW668eSNJ2ug5uAO.jpg',
-      background: '//image.tmdb.org/t/p/original/yVUAfbrP5HDJugXraB7KQS0yz6Z.jpg'
+      poster: '//image.tmdb.org/t/p/original/yVUAfbrP5HDJugXraB7KQS0yz6Z.jpg',
+      background: '//image.tmdb.org/t/p/original/piuRhGiQBYWgW668eSNJ2ug5uAO.jpg'
     }).into('series')
   }
 }
