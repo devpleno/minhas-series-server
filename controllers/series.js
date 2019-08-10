@@ -62,6 +62,7 @@ const create = ({ db }) => async(req, res) => {
     name: newSerie.name,
     status: newSerie.status,
     genre_id: newSerie.genre_id,
+    comments: newSerie.comments,
     poster: images.poster,
     background: images.background
   }
@@ -79,6 +80,8 @@ const getOne = ({ db }) => async(req, res) => {
       name: 'series.name',
       status: 'series.status',
       genre: 'genres.name',
+      genre_id: 'series.genre_id',
+      comments: 'series.comments',
       poster: 'series.poster',
       background: 'series.background'
     })
