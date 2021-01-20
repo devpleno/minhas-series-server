@@ -19,15 +19,15 @@ const getSerieImage = async (name) => {
 
 const get = async (req, res) => {
   const db = await low(adapter);
-  const genres = db.get("genres").value();
+  // const genres = db.get("genres").value();
   const result = db.get("series").value();
 
   const data = [];
   Object.keys(result).map((each) => {
-    const genreId = result[each].genre_id;
-    const genreName = genres[genreId].name;
     result[each]["id"] = each;
-    result[each]["genre_name"] = genreName;
+    // const genreId = result[each].genre_id;
+    // const genreName = genres[genreId]?.name ?? "Removido";
+    // result[each]["genre_name"] = genreName;
     const prepareData = { ...result[each] };
     data.push(prepareData);
   });
@@ -68,9 +68,8 @@ const getOne = async (req, res) => {
   const result = db.get("series").value();
 
   const serie = result[req.params.id];
-
   const genreId = serie.genre_id;
-  const genreName = genres[genreId].name;
+  const genreName = genres[genreId]?.name;
   serie["id"] = req.params.id;
   serie["genre_name"] = genreName;
   console.log(serie);
@@ -98,7 +97,7 @@ const update = async (req, res) => {
   const serieToUpdate = {
     name: updatedSerie.name,
     status: updatedSerie.status,
-    genre_id: updatedSerie.genre_id,
+    genre_id: parseInt(updatedSerie.genre_id),
     comments: updatedSerie.comments,
     poster: images.poster,
     background: images.background,
