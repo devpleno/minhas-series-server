@@ -10,7 +10,9 @@
     "knex": "^0.19.5",
     "sqlite3": "^4.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "cors": "^2.8.5"
+  },
   "scripts": {
     "start": "node index.js"
   },
