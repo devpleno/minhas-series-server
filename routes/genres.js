@@ -1,13 +1,11 @@
-const router = require('express').Router()
-const db = require('../db')
-const dependencies = { db }
+const router = require("express").Router();
 
-const controller = require('../controllers/genres')
+const controller = require("../controllers/genres");
 
-router.get('/:id', controller.getOne(dependencies))
-router.get('/', controller.get(dependencies))
-router.post('/', controller.create(dependencies))
-router.put('/:id', controller.update(dependencies))
-router.delete('/:id', controller.remove(dependencies))
+router.get("/:id", controller.getOne);
+router.get("/", controller.get);
+router.post("/", controller.create);
+router.put("/:id", controller.update);
+router.delete("/:id", controller.remove);
 
-module.exports = router
+module.exports = router;
