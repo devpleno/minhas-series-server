@@ -26,7 +26,7 @@ const create = async (req, res) => {
   result[id] = { name: newGenre.name };
 
   db.get("genres").push(result).last().write();
-  res.send(result[id]);
+  res.send({ ...result[id], id });
 };
 
 const getOne = async (req, res) => {
