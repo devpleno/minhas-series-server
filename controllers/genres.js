@@ -32,9 +32,13 @@ const create = async (req, res) => {
 const getOne = async (req, res) => {
   const db = await low(adapter);
   const result = db.get("genres").value();
-  const genre = result[req.params.id];
-  genre['id'] = req.params.id;
-  res.send(genre);
+  try {
+    const genre = result[req.params.id];
+    genre['id'] = req.params.id;
+    res.send(genre);
+  } catch (error) {
+    res.send({ status: 'not found' })
+  }
 };
 
 const remove = async (req, res) => {
